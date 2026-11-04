@@ -121,9 +121,9 @@ end
 -- Called from the XML template OnLoad
 function S:InitAuraButton(btn)
 	if InCombatLockdown() then
-		-- combat-spawned buttons: wiring happens on regen; UpdateAura guards
-		-- missing regions until then
-		return
+		-- combat-spawned buttons get their regions, scripts and cancelaura
+		-- wiring after regen; UpdateAura guards missing regions until then
+		return S:RunOutOfCombat(S.InitAuraButton, S, btn)
 	end
 	S:SafeCall("Auras:Init", function()
 		local header = btn:GetParent()
