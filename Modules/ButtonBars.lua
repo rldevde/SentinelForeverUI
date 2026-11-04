@@ -471,7 +471,10 @@ function BB:TryGrab(child)
 	if not w or not h then return end
 	local mw, mh = Minimap:GetSize()
 	if w > mw * 0.5 or h > mh * 0.5 then return end
-	if max(w, h) <= 14 or abs(w - h) > 6 then return end
+	if max(w, h) <= 14 then return end
+	-- square icons and small pill buttons ("SHG", "WIM") are fine; only
+	-- reject things that are clearly bars or labels, not buttons
+	if w > h * 3 or h > w * 3 then return end
 	local name = child:GetName()
 	if name and self:Ignored(name) then return end
 	-- Blizzard's own cluster buttons only get collected when grabBlizzard
@@ -511,6 +514,19 @@ function BB:ScanMinimap()
 		local f = _G[holder]
 		if f and f.GetChildren then
 			for _, child in ipairs({ f:GetChildren() }) do pcall(self.TryGrab, self, child) end
+		end
+	end
+	-- and some parent to UIParent but anchor to the minimap (e.g. small pill
+	-- buttons) - collect anything anchored to the minimap cluster
+	for _, child in ipairs({ UIParent:GetChildren() }) do
+		if child ~= Minimap and child.GetNumPoints then
+			for i = 1, child:GetNumPoints() do
+				local _, rel = child:GetPoint(i)
+				if rel == Minimap or rel == MinimapBackdrop or rel == MinimapCluster or rel == MinimapPanel then
+					pcall(self.TryGrab, self, child)
+					break
+				end
+			end
 		end
 	end
 end
