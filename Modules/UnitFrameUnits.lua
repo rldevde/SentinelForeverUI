@@ -165,9 +165,14 @@ function UF:ApplyHeaderAttributes(header)
 	for i = 1, 40 do
 		local child = header:GetAttribute("child" .. i) or _G[header:GetName() .. "UnitButton" .. i]
 		if not child then break end
-		child:SetSize(db.width, db.height)
-		child.db = db
-		if child.suiInit then self:ConfigureFrame(child) end
+		-- only touch frames that actually belong to this header - the global
+		-- name fallback could pick up a foreign frame (e.g. the player unit
+		-- frame) and re-style it with the party layout on roster updates
+		if child:GetParent() == header or child:GetParent() == header.holder then
+			child:SetSize(db.width, db.height)
+			child.db = db
+			if child.suiInit then self:ConfigureFrame(child) end
+		end
 	end
 
 	local holder = header.holder
