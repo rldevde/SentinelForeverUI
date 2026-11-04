@@ -121,8 +121,16 @@ end
 -- Called from the XML template OnLoad
 function S:InitAuraButton(btn)
 	if InCombatLockdown() then
-		-- combat-spawned buttons get their regions, scripts and cancelaura
-		-- wiring after regen; UpdateAura guards missing regions until then
+		-- combat-spawned button: build the visible parts now (region calls
+		-- are combat-safe) so the buff shows mid-fight; click wiring and
+		-- anything protected lands after regen via the full init
+		if not btn.icon then
+			btn.icon = btn:CreateTexture(nil, "ARTWORK")
+			btn.icon:SetAllPoints(btn)
+			btn.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+		end
+		local index = btn:GetAttribute("index")
+		if index then S:SafeCall("Auras:BtnFill", A.UpdateAura, A, btn, index) end
 		return S:RunOutOfCombat(S.InitAuraButton, S, btn)
 	end
 	S:SafeCall("Auras:Init", function()
@@ -152,7 +160,7 @@ function S:InitAuraButton(btn)
 		-- fills via the UNIT_AURA driver refresh instead.
 		local db = A.db[btn.filter == "HARMFUL" and "debuffs" or "buffs"]
 		S:CreateBackdrop(btn, "Default")
-		btn.icon = btn:CreateTexture(nil, "ARTWORK")
+		btn.icon = btn.icon or btn:CreateTexture(nil, "ARTWORK")
 		S:SetInside(btn.icon, btn, 0, 0)
 		btn.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		btn.cd = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
