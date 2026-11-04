@@ -253,7 +253,7 @@ S.defaults = {
 		-- MINIMAP = own rim button as the handle
 		buttonBars = {
 			enabled = true,
-			grabMinimap = true, grabLDB = false, ldbAny = false,
+			grabMinimap = true, grabLDB = true, ldbAny = false,
 			grabBlizzard = false, collectSUI = true, grabUnnamed = false,
 			customGrab = "", ignorePatterns = "",
 			interceptTooltip = true, petBattleHide = true,

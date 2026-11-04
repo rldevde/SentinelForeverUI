@@ -23,6 +23,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- **Minimap button collection**: a single erroring frame aborted the whole minimap sweep so no foreign buttons showed - each candidate is now grabbed with pcall, companion frames (MinimapBackdrop/MinimapCluster/MinimapPanel) are scanned too, and LDB data objects are collected by default (`grabLDB` migration)
 - **Layer detection works now**: the Layer data text stayed on "?" because it read the wrong GUID field and referenced a module that does not exist here. Detection now works the way the well-known buff trackers do it - every NPC GUID carries its spawn shard, the discriminator key combines instanceID and zoneUID (which field holds the layer varies per client), keys are remembered per zone and realm and numbered in sorted order so "Layer 2" means the same thing your friends' addons report. Detection is passive too: combat-log GUIDs and nameplates feed it even without targeting an NPC, and it re-detects after joining a group or changing zones
 - **Gold data text no longer flickers**: the 5-second rotation between current gold, session and month display is off by default - the slot now always shows the current amount, and the longer labelled phases no longer truncate. Rotation can be re-enabled under Data Texts (`goldRotate`)
 - **Installer text readability**: a soft dim sits behind the content area so the copy no longer blends into the bright world behind the translucent window

@@ -162,6 +162,12 @@ function S:OnInitialize()
 		self.private.themeVersion = 9
 		self.db.profile.datatexts.goldRotate = false
 	end
+	-- v10: LDB objects get collected too - addons that only register a data
+	-- broker object (no physical minimap button) never showed up in the bar
+	if (self.private.themeVersion or 0) < 10 then
+		self.private.themeVersion = 10
+		self.db.profile.buttonBars.grabLDB = true
+	end
 
 	self:UpdateMedia()
 	self:UpdatePixelScale()

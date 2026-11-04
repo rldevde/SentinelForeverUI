@@ -23,6 +23,7 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Corrigido
 
+- **Coleta de botões do minimapa**: um único frame com erro abortava toda a varredura e nenhum botão externo aparecia - cada candidato agora é coletado com pcall, frames companheiros (MinimapBackdrop/MinimapCluster/MinimapPanel) também são escaneados e objetos LDB são coletados por padrão (migração `grabLDB`)
 - **A detecção de camada funciona**: o texto de dados Layer ficava em «?» porque lia o campo GUID errado e referenciava um módulo que aqui não existe. A detecção agora funciona como os trackers de bônus conhecidos - cada GUID de NPC carrega seu shard de spawn, a chave discriminante combina instanceID e zoneUID (qual campo carrega a camada varia por cliente), as chaves são lembradas por zona e reino e numeradas em ordem ordenada, de modo que «Layer 2» significa o mesmo que nos addons dos amigos. A detecção também é passiva: GUIDs do registro de combate e placas de nome a alimentam sem selecionar NPC, e ela redetecta após entrar em grupo ou mudar de zona
 - **O texto de dados Ouro não pisca mais**: a rotação de 5 segundos entre ouro atual, sessão e mês está desativada por padrão - o espaço sempre mostra a quantia atual e as fases com rótulos longos não são mais truncadas. A rotação pode ser reativada em Textos de dados (`goldRotate`)
 - **Legibilidade do texto do instalador**: um leve escurecimento fica atrás da área de conteúdo para que o texto não se misture mais ao mundo claro atrás da janela translúcida

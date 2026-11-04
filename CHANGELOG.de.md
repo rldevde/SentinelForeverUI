@@ -23,6 +23,7 @@ Das Format folgt [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Behoben
 
+- **Minimap-Button-Sammlung**: ein einzelner fehlerhafter Frame brach den ganzen Scan ab, sodass keine Fremd-Buttons erschienen - jeder Kandidat wird jetzt per pcall eingesammelt, Begleit-Frames (MinimapBackdrop/MinimapCluster/MinimapPanel) werden mitgescannt und LDB-Datenobjekte sind standardmäßig aktiv (`grabLDB`-Migration)
 - **Layer-Erkennung funktioniert**: der Layer-Datatext blieb auf „?", weil er das falsche GUID-Feld las und auf ein hier nicht existierendes Modul verwies. Die Erkennung arbeitet jetzt wie die bekannten Buff-Tracker - jede NPC-GUID trägt ihren Spawn-Shard, der Diskriminator-Key kombiniert instanceID und zoneUID (welches Feld den Layer trägt variiert je nach Client), Keys werden pro Zone und Realm gemerkt und sortiert nummeriert, sodass „Layer 2" dasselbe bedeutet wie bei den Addons deiner Freunde. Die Erkennung ist auch passiv: Combat-Log-GUIDs und Nameplates füttern sie ohne NPC-Anvisieren, und nach Gruppenbeitritt oder Zonenwechsel wird neu erkannt
 - **Gold-Datatext flackert nicht mehr**: die 5-Sekunden-Rotation zwischen aktuellem Gold, Sitzung und Monat ist standardmäßig aus - der Slot zeigt immer den aktuellen Betrag, und die längeren Label-Phasen kürzen nicht mehr ab. Die Rotation lässt sich unter Datatexte (`goldRotate`) wieder einschalten
 - **Lesbarkeit des Installer-Texts**: eine dezente Abdunklung liegt hinter dem Inhaltsbereich, damit der Text nicht mehr in die helle Spielwelt hinter dem durchscheinenden Fenster verläuft

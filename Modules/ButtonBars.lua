@@ -503,9 +503,15 @@ end
 
 function BB:ScanMinimap()
 	if not self.db.grabMinimap then return end
-	for _, child in ipairs({ Minimap:GetChildren() }) do self:TryGrab(child) end
-	if MinimapBackdrop then
-		for _, child in ipairs({ MinimapBackdrop:GetChildren() }) do self:TryGrab(child) end
+	-- pcall per child: one broken frame (secret values, weird children) must
+	-- not kill the whole sweep and leave the bar empty
+	for _, child in ipairs({ Minimap:GetChildren() }) do pcall(self.TryGrab, self, child) end
+	-- addons also attach buttons to companion frames; names differ per client
+	for _, holder in ipairs({ "MinimapBackdrop", "MinimapCluster", "MinimapPanel" }) do
+		local f = _G[holder]
+		if f and f.GetChildren then
+			for _, child in ipairs({ f:GetChildren() }) do pcall(self.TryGrab, self, child) end
+		end
 	end
 end
 
@@ -593,7 +599,7 @@ function BB:ScanLDB()
 		-- a LibDBIcon button for this object is collected by the minimap scan;
 		-- only objects without a visible icon need a created button
 		local hasIcon = ldbi and ldbi:IsRegistered(name)
-		if not hasIcon then self:AddLDBObject(name, data) end
+		if not hasIcon then pcall(self.AddLDBObject, self, name, data) end
 	end
 end
 
