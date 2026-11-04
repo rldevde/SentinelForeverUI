@@ -146,20 +146,10 @@ function S:InitAuraButton(btn)
 			btn2:SetAttribute("type2", "cancelaura")
 		end
 		WireSecure(btn)
-		-- like the reference implementation: when the header assigns this
-		-- button an aura index, the button fills itself right away instead of
-		-- waiting for our next refresh pass - works mid-combat too since the
-		-- header's own update just spawned it
-		-- like the reference: the button fills itself when the header assigns
-		-- an index/target-slot; only the content calls are insecure, the
-		-- layout pass stays untouched
-		btn:SetScript("OnAttributeChanged", function(self2, attr, value)
-			if attr == "index" and value then
-				S:SafeCall("Auras:BtnFill", A.UpdateAura, A, self2, value)
-			elseif attr == "target-slot" and value then
-				S:SafeCall("Auras:BtnFill", A.UpdateWeapon, A, self2, value)
-			end
-		end)
+		-- NO insecure OnAttributeChanged on the protected button: when our
+		-- handler runs inside the header's secure update mid-combat it taints
+		-- the call chain -> ClearAllPoints -> ADDON_ACTION_BLOCKED. Content
+		-- fills via the UNIT_AURA driver refresh instead.
 		local db = A.db[btn.filter == "HARMFUL" and "debuffs" or "buffs"]
 		S:CreateBackdrop(btn, "Default")
 		btn.icon = btn:CreateTexture(nil, "ARTWORK")
