@@ -520,13 +520,15 @@ function BB:ScanMinimap()
 	-- buttons) - collect anything anchored to the minimap cluster
 	for _, child in ipairs({ UIParent:GetChildren() }) do
 		if child ~= Minimap and child.GetNumPoints then
-			for i = 1, child:GetNumPoints() do
-				local _, rel = child:GetPoint(i)
-				if rel == Minimap or rel == MinimapBackdrop or rel == MinimapCluster or rel == MinimapPanel then
-					pcall(self.TryGrab, self, child)
-					break
+			local _, anchored = pcall(function()
+				for i = 1, child:GetNumPoints() do
+					local _, rel = child:GetPoint(i)
+					if rel == Minimap or rel == MinimapBackdrop or rel == MinimapCluster or rel == MinimapPanel then
+						return true
+					end
 				end
-			end
+			end)
+			if anchored then pcall(self.TryGrab, self, child) end
 		end
 	end
 end
