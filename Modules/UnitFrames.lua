@@ -2153,8 +2153,19 @@ function UF:Initialize()
 		end
 	end
 	UF.RefreshSecureHeaders = RefreshSecureHeaders
+	-- group header children are not guaranteed to sit in UF.frames; repaint
+	-- them via the headers so a fresh join cannot leave half-built cells
+	local function RepaintGroupChildren()
+		for _, header in pairs(UF.headers) do
+			for i = 1, 40 do
+				local child = header:GetAttribute("child" .. i)
+				if not child then break end
+				if child.unit and UnitExists(child.unit) then S:SafeCall("UnitFrames:Repaint", UF.UpdateFrame, UF, child) end
+			end
+		end
+	end
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", function()
-		for _, f in ipairs(UF.frames) do if f.unit then UF:UpdateIndicators(f) end end
+		for _, f in ipairs(UF.frames) do if f.unit then UF:UpdateFrame(f) end end
 		RefreshSecureHeaders()
 		-- party buttons show/hide themselves via unit watch (also in combat);
 		-- only the sort order is remapped, which waits for regen
@@ -2162,10 +2173,12 @@ function UF:Initialize()
 		-- a joiner reports health/connection as 0 until the client fetches
 		-- them; repaint everything now and once more shortly after
 		for _, f in ipairs(UF.frames) do if f.unit then UF:UpdateFrame(f) end end
+		RepaintGroupChildren()
 		C_Timer.After(1, function()
 			for _, f in ipairs(UF.frames) do
 				if f.unit and UnitExists(f.unit) then UF:UpdateFrame(f) end
 			end
+			RepaintGroupChildren()
 		end)
 	end)
 	self:RegisterEvent("UNIT_PET", function(_, _, unit)
