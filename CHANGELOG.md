@@ -17,6 +17,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **AFK screen**: now also dismisses on mouse movement, clicks and the mouse wheel - not only ESC or moving
 - **New brand logo everywhere**: the lion sigil from the new logo is now the addon icon (addon list, minimap button, options header) and the full Sentinel Forever banner is shown on the options Start page and at the top of the AFK screen; the installer sidebar uses the crisp lion mark with wordmark text
 - **Theme updated to the logo palette**: backdrop is a deeper navy and borders a steel blue, matching the banner background; the top edge of the options window runs a gold-to-azure gradient like the logo
 

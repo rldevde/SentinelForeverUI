@@ -6,7 +6,7 @@ local S = ns.S
 local L = S.L
 local AFK = S:NewModule("AFK")
 
-local format, floor, sin = format, math.floor, math.sin
+local format, floor, sin, abs = format, math.floor, math.sin, math.abs
 local BLANK = [[Interface\Buttons\WHITE8X8]]
 
 local function Gradient(tex, orientation, a1, a2)
@@ -47,6 +47,21 @@ function AFK:Create()
 	f:EnableKeyboard(true)
 	f:EnableMouse(true) -- the real UI stays alive underneath, do not let clicks fall through
 	f:SetPropagateKeyboardInput(true)
+	-- dismiss on click and wheel too, not just keys
+	f:SetScript("OnMouseDown", function() AFK:Toggle(false) end)
+	f:EnableMouseWheel(true)
+	f:SetScript("OnMouseWheel", function() AFK:Toggle(false) end)
+	-- and on real mouse movement: accumulate cursor delta, dismiss past a
+	-- small threshold so idle jitter can't kill the screen instantly
+	f:SetScript("OnShow", function() f.mx, f.my, f.mdist = nil, nil, 0 end)
+	f:SetScript("OnMouseMove", function(_, x, y)
+		local lx, ly = f.mx, f.my
+		f.mx, f.my = x, y
+		if lx and AFK.active then
+			f.mdist = f.mdist + abs(x - lx) + abs(y - ly)
+			if f.mdist > 30 then AFK:Toggle(false) end
+		end
+	end)
 	f:SetScript("OnKeyDown", function(self, key)
 		if InCombatLockdown() then return end
 		if key == "ESCAPE" then

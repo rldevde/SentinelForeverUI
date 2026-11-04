@@ -17,6 +17,7 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Modificato
 
+- **Schermo AFK**: si chiude anche con movimento del mouse, clic e rotellina - non solo ESC o il movimento
 - **Nuovo logo ovunque**: il leone del nuovo logo è ora l'icona dell'addon (lista addon, pulsante minimappa, header opzioni) e il banner completo Sentinel Forever compare nella pagina iniziale delle opzioni e in cima alla schermata AFK; la barra laterale dell'installer usa il leone nitido con il marchio
 - **Tema aggiornato alla palette del logo**: lo sfondo è un blu navy più profondo e i bordi un blu acciaio, in linea con lo sfondo del banner; il bordo superiore della finestra opzioni mostra un gradiente da oro ad azzurro come il logo
 

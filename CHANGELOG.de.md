@@ -17,6 +17,7 @@ Das Format folgt [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Geändert
 
+- **AFK-Bildschirm**: lässt sich jetzt auch per Mausbewegung, Klick und Mausrad ausblenden - nicht nur ESC oder Laufen
 - **Neues Logo überall**: das Löwen-Siegel des neuen Logos ist jetzt das Addon-Icon (Addon-Liste, Minimap-Button, Options-Header) und das volle Sentinel-Forever-Banner erscheint auf der Options-Startseite und oben im AFK-Screen; die Installer-Seitenleiste nutzt das scharfe Löwen-Mark mit Wortmarke
 - **Theme an die Logo-Palette angepasst**: Hintergrund ist ein tieferes Navy, Rahmen ein Stahlblau passend zum Banner; die obere Kante des Optionsfensters läuft als Gold-nach-Azur-Verlauf wie im Logo
 
