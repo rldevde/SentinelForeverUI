@@ -1,0 +1,74 @@
+## Interface: 11508, 11509, 20505, 20506, 30405, 38002, 50503, 50504, 120005, 120007, 120100, 16001
+## Interface-Camelot: 16001
+## Title: |cffebad33Sentinel|r|cffffffffForeverUI|r
+## Notes: Complete user interface replacement
+## Notes-deDE: Kompletter Ersatz der Benutzeroberfläche
+## Notes-frFR: Remplacement complet de l'interface
+## Notes-esES: Reemplazo completo de la interfaz de usuario
+## Notes-esMX: Reemplazo completo de la interfaz de usuario
+## Notes-itIT: Sostituzione completa dell'interfaccia utente
+## Notes-ptBR: Substituição completa da interface
+## Notes-ruRU: Полная замена интерфейса
+## Notes-koKR: 완전한 인터페이스 대체
+## Notes-zhCN: 完整的界面替换插件
+## Notes-zhTW: 完整的介面替換插件
+## Author: xRL-Dev.de
+## Version: 1.5.5
+## IconTexture: Interface\AddOns\SentinelForeverUI\Media\Textures\Logo
+## AddonCompartmentFunc: SentinelForeverUI_AddonCompartmentFunc
+## X-Website: https://xrl-dev.de/
+## X-BugTracker: https://xrl-dev.de/bugtracker
+## Group: Sentinel
+## Category: xRL-Dev
+## Category-deDE: xRL-Dev
+## SavedVariables: SentinelForeverUIDB, SentinelForeverUILog
+## SavedVariablesPerCharacter: SentinelForeverUICharDB
+## OptionalDeps: SharedMedia
+
+Libs\Libs.xml
+
+Core\Init.lua
+Core\Logger.lua
+Core\Compat.lua
+Locales\enUS.lua
+Locales\deDE.lua
+Locales\frFR.lua
+Locales\esES.lua
+Locales\itIT.lua
+Locales\ptBR.lua
+Locales\ruRU.lua
+Locales\koKR.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+Core\Defaults.lua
+Core\Media.lua
+Core\Toolkit.lua
+Core\API.lua
+Core\Movers.lua
+Core\Core.lua
+
+Modules\BugFolder.lua
+Modules\ActionBars.lua
+Modules\UnitFrames.lua
+Modules\UnitFrameUnits.lua
+Modules\Auras.lua
+Modules\Auras.xml
+Modules\Nameplates.lua
+Modules\Tooltip.lua
+Modules\Bags.lua
+Modules\Chat.lua
+Modules\Minimap.lua
+Modules\ButtonBars.lua
+Modules\DataTexts.lua
+Modules\DataBars.lua
+Modules\Misc.lua
+Modules\CombatText.lua
+Modules\AFK.lua
+Modules\Skins.lua
+Modules\WindowMover.lua
+
+Core\Diagnostics.lua
+Core\Profiles.lua
+Core\Install.lua
+Core\ConfigSkin.lua
+Core\Config.lua
