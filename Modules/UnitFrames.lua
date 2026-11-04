@@ -2160,7 +2160,13 @@ function UF:Initialize()
 			for i = 1, 40 do
 				local child = header:GetAttribute("child" .. i)
 				if not child then break end
-				if child.unit and UnitExists(child.unit) then S:SafeCall("UnitFrames:Repaint", UF.UpdateFrame, UF, child) end
+				-- a cell whose OnAttributeChanged hook never saw the unit
+				-- assignment stays raw (bare bar, no texts) - bind it here
+				local unit = child.unit or (child.GetAttribute and child:GetAttribute("unit"))
+				if unit then
+					if child.unit ~= unit then UF:SetFrameUnit(child, unit) end
+					if UnitExists(unit) then S:SafeCall("UnitFrames:Repaint", UF.UpdateFrame, UF, child) end
+				end
 			end
 		end
 	end
