@@ -51,16 +51,19 @@ function AFK:Create()
 	f:SetScript("OnMouseDown", function() AFK:Toggle(false) end)
 	f:EnableMouseWheel(true)
 	f:SetScript("OnMouseWheel", function() AFK:Toggle(false) end)
-	-- and on real mouse movement: accumulate cursor delta, dismiss past a
-	-- small threshold so idle jitter can't kill the screen instantly
+	-- and on real mouse movement: no OnMouseMove handler on this client, so
+	-- poll the cursor while shown and dismiss past a small threshold (idle
+	-- jitter can't kill the screen instantly)
 	f:SetScript("OnShow", function() f.mx, f.my, f.mdist = nil, nil, 0 end)
-	f:SetScript("OnMouseMove", function(_, x, y)
-		local lx, ly = f.mx, f.my
-		f.mx, f.my = x, y
-		if lx and AFK.active then
-			f.mdist = f.mdist + abs(x - lx) + abs(y - ly)
-			if f.mdist > 30 then AFK:Toggle(false) end
+	f:SetScript("OnUpdate", function()
+		if not AFK.active then return end
+		local x, y = GetCursorPosition()
+		if S.IsSecret(x) or S.IsSecret(y) then return end
+		if f.mx then
+			f.mdist = f.mdist + abs(x - f.mx) + abs(y - f.my)
+			if f.mdist > 30 then AFK:Toggle(false) return end
 		end
+		f.mx, f.my = x, y
 	end)
 	f:SetScript("OnKeyDown", function(self, key)
 		if InCombatLockdown() then return end
