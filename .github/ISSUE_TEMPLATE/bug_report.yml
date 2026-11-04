@@ -1,0 +1,42 @@
+name: Bug report
+description: Something is broken in SentinelForeverUI
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options:
+        - Anniversary (1.15.x)
+        - WoW Forever / Camelot (1.60.x)
+        - Classic Era
+        - TBC / Wrath / Cata / MoP Classic
+        - Retail
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Addon version
+      placeholder: e.g. 1.5.5
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Steps to reproduce + what you expected vs. what happened
+    validations:
+      required: true
+  - type: textarea
+    id: errors
+    attributes:
+      label: Lua errors
+      description: "Paste a BugFolder export: /sbug -> Export"
+      render: lua
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Screenshots, other addons involved, etc.

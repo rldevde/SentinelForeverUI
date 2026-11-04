@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Bugtracker
+    url: https://xrl-dev.de/bugtracker
+    about: In-game /account tickets also work via the BugFolder report button
+  - name: Website
+    url: https://xrl-dev.de/
+    about: Project page and downloads
