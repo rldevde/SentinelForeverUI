@@ -5,6 +5,21 @@
 All notable changes to SentinelForeverUI are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.6]
+
+### Fixed
+
+- **ButtonBars collected its own dock button** — the "anchored to the
+  minimap cluster" sweep grabbed `SentinelUIDockBtn` (parented to
+  UIParent, anchored to the minimap when no data strip exists) and the
+  layout then tried to anchor the button inside a bar that is itself
+  anchored to that button: circular anchor / "Cannot anchor to a region
+  dependent on it" errors on every rescan. Dock buttons are now in the
+  built-in ignore list
+- **Failed `GetNumPoints` made frames look "anchored"** — the anchored
+  sweep read the pcall error message as a truthy "anchored" result and
+  tried to grab broken frames anyway; the success flag is checked now
+
 ## [1.5.5] - 2026-11-04
 
 ### Added

@@ -254,7 +254,7 @@ S.defaults = {
 		buttonBars = {
 			enabled = true,
 			grabMinimap = true, grabLDB = true, ldbAny = false,
-			grabBlizzard = false, collectSUI = true, grabUnnamed = false,
+			grabBlizzard = false, collectSUI = true, grabUnnamed = true,
 			customGrab = "", ignorePatterns = "",
 			interceptTooltip = true, petBattleHide = true,
 			ignore = {}, btn = {}, migrated = false, dockMigrated = false, dockFixed2 = false, dockFixed3 = false,

@@ -51,6 +51,7 @@ local builtinIgnore = {
 }
 local builtinPatterns = {
 	"^SentinelUIButtonBar",
+	"^SentinelUIDockBtn",
 	"^SentinelUIMinimapButton_SUIBar",
 	"^GatherMatePin%d+$",
 	"^TTMinimapButton%d+$",
@@ -520,7 +521,9 @@ function BB:ScanMinimap()
 	-- buttons) - collect anything anchored to the minimap cluster
 	for _, child in ipairs({ UIParent:GetChildren() }) do
 		if child ~= Minimap and child.GetNumPoints then
-			local _, anchored = pcall(function()
+			-- pcall returns the error message in slot 2 on failure - check ok
+			-- first or a broken frame would look "anchored" and get grabbed
+			local ok, anchored = pcall(function()
 				for i = 1, child:GetNumPoints() do
 					local _, rel = child:GetPoint(i)
 					if rel == Minimap or rel == MinimapBackdrop or rel == MinimapCluster or rel == MinimapPanel then
@@ -528,7 +531,7 @@ function BB:ScanMinimap()
 					end
 				end
 			end)
-			if anchored then pcall(self.TryGrab, self, child) end
+			if ok and anchored then pcall(self.TryGrab, self, child) end
 		end
 	end
 end
@@ -1711,6 +1714,9 @@ function BB:Initialize()
 	-- initial + lazy scans: addons create buttons at arbitrary times
 	self:Rescan()
 	C_Timer.After(3, function() S:SafeCall("ButtonBars:Scan", BB.Rescan, BB) end)
+	-- a second sweep for addons that create their button lazily (after some
+	-- event or timeout instead of at load)
+	C_Timer.After(15, function() S:SafeCall("ButtonBars:Scan", BB.Rescan, BB) end)
 	C_Timer.NewTicker(5, function()
 		if BB.db and BB.db.enabled then S:SafeCall("ButtonBars:Scan", BB.Rescan, BB) end
 	end)

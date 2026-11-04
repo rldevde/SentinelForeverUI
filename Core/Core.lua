@@ -168,6 +168,12 @@ function S:OnInitialize()
 		self.private.themeVersion = 10
 		self.db.profile.buttonBars.grabLDB = true
 	end
+	-- v11: unnamed buttons get collected too - pill-style addon buttons
+	-- without a frame name stayed on the minimap rim otherwise
+	if (self.private.themeVersion or 0) < 11 then
+		self.private.themeVersion = 11
+		self.db.profile.buttonBars.grabUnnamed = true
+	end
 
 	self:UpdateMedia()
 	self:UpdatePixelScale()
