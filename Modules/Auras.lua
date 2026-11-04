@@ -118,8 +118,14 @@ function A:UpdateWeapon(btn, slot)
 	btn.suiBackdrop:SetBackdropBorderColor(0.6, 0.2, 0.9)
 end
 
--- Called from the XML template OnLoad
+-- Called from the XML template OnLoad / secure CallMethod. Any insecure code
+-- running inside that chain taints the ongoing secure aura update and the
+-- env's own ClearAllPoints gets blocked - defer the real init one frame out.
 function S:InitAuraButton(btn)
+	C_Timer.After(0, function() S:InitAuraButtonNow(btn) end)
+end
+
+function S:InitAuraButtonNow(btn)
 	if InCombatLockdown() then
 		-- combat-spawned button: build the visible parts now (region calls
 		-- are combat-safe) so the buff shows mid-fight; click wiring and
@@ -131,7 +137,7 @@ function S:InitAuraButton(btn)
 		end
 		local index = btn:GetAttribute("index")
 		if index then S:SafeCall("Auras:BtnFill", A.UpdateAura, A, btn, index) end
-		return S:RunOutOfCombat(S.InitAuraButton, S, btn)
+		return S:RunOutOfCombat(S.InitAuraButtonNow, S, btn)
 	end
 	S:SafeCall("Auras:Init", function()
 		local header = btn:GetParent()
