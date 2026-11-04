@@ -242,6 +242,10 @@ evFrame:SetScript("OnEvent", function(_, event, a, b)
 	else
 		-- ADDON_ACTION_BLOCKED / _FORBIDDEN / MACRO_ACTION_*
 		if BF.db and BF.db.filterAddonMistakes then return end
+		-- blocked calls on our own frames are pure noise: protected SentinelUI
+		-- frames carry unavoidable taint on this client and the skipped
+		-- anchor/layout call is cosmetic only
+		if tostring(b or ""):find("SentinelUI") then return end
 		local name = tostring(a or "<name>")
 		if not badAddons[name] then
 			badAddons[name] = true
