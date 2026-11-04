@@ -2157,9 +2157,9 @@ function UF:Initialize()
 	-- them via the headers so a fresh join cannot leave half-built cells
 	local function RepaintGroupChildren()
 		for _, header in pairs(UF.headers) do
-			for i = 1, 40 do
-				local child = header:GetAttribute("child" .. i)
-				if not child then break end
+			-- childN attributes are not populated on every client; real
+			-- children are reliable
+			for _, child in ipairs({ header:GetChildren() }) do
 				-- a cell whose OnAttributeChanged hook never saw the unit
 				-- assignment stays raw (bare bar, no texts) - bind it here
 				local unit = child.unit or (child.GetAttribute and child:GetAttribute("unit"))
